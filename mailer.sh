@@ -12,4 +12,4 @@ git fetch --all
 
 # todo: migrate to multimail?
 # https://github.com/git/git/blob/master/contrib/hooks/multimail/README.migrate-from-post-receive-email
-echo "$before" "$after" "$ref" | /usr/bin/gitmail "$pusher <$email>"
+echo "$before" "$after" "$ref" | /usr/bin/gitmail "$pusher <$email>" 2>&1

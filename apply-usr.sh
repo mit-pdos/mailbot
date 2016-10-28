@@ -55,6 +55,7 @@ for f in *.repo.sh; do
     "id": "email-$name",
     "execute-command": "/usr/bin/mailer",
     "command-working-directory": "/home/default",
+    "include-command-output-in-response": true,
     "pass-arguments-to-command":
     [
       {
