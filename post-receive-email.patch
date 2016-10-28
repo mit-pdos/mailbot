@@ -1,5 +1,5 @@
 diff --git a/post-receive-email b/post-receive-email
-index 8747b84..293cc72 100644
+index 8747b84..7f7f5bf 100644
 --- a/post-receive-email
 +++ b/post-receive-email
 @@ -212,7 +212,7 @@ generate_email()
@@ -24,10 +24,10 @@ index 8747b84..293cc72 100644
  	# --- Email (all stdout will be the email)
  	# Generate header
 +	echo "To: $recipients"
-+	if [ -z "$1" ]; then
++	if [ -n "$1" ]; then
 +		echo "From: $1"
 +	fi
-+	if [ -z "$envelopesender" ]; then
++	if [ -n "$envelopesender" ]; then
 +		echo "Sender: $envelopesender"
 +	fi
  	cat <<-EOF

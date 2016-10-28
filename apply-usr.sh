@@ -44,7 +44,7 @@ for f in *.repo.sh; do
 	# various calls to git config
 	pushd "$path" > /dev/null
 	configure > /dev/stderr
-	git config hooks.envelopesender "no-reply@mailbot.pdos.csail.mit.edu"
+	git config hooks.envelopesender "$name mailbot <no-reply@mailbot.pdos.csail.mit.edu>"
 	popd > /dev/null
 
 	# add to hooks.json
