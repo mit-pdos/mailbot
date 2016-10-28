@@ -68,6 +68,14 @@ for f in *.repo.sh; do
       {
         "source": "payload",
         "name": "after"
+      },
+      {
+        "source": "payload",
+        "name": "pusher.name"
+      },
+      {
+        "source": "payload",
+        "name": "pusher.email"
       }
     ],
     "trigger-rule":
