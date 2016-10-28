@@ -1,5 +1,4 @@
 #!/bin/sh
-echo "setting up gitmail script"
 wget --quiet -O gitmail https://raw.githubusercontent.com/git/git/master/contrib/hooks/post-receive-email
 patch -Np1 gitmail post-receive-email.patch
 mv gitmail /usr/bin/gitmail
