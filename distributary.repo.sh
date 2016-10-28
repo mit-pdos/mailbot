@@ -1,6 +1,6 @@
 url="git@github.com:mit-pdos/distributary.git"
 configure() {
-	git config hooks.mailinglist soup@pdos.csail.mit.edu
+	git config hooks.mailinglist jon@thesquareplanet.com
 	#git config hooks.announcelist
 	#git config hooks.envelopesender
 	git config hooks.emailprefix "[soup] "
