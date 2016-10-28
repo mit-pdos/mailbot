@@ -19,7 +19,7 @@ for f in repositories/*.sh; do
 	. "$f"
 	echo "  $url" > /dev/stderr
 	if [ -z "$url" ]; then
-		echo "no url specified for repo $name -- skipping" > /dev/stderr
+		echo "  no url specified -- skipping" > /dev/stderr
 		continue;
 	fi
 
@@ -27,20 +27,20 @@ for f in repositories/*.sh; do
 	if [ -e "$path" ]; then
 		# check that it's in the right state
 		if [ ! -d "$path" ]; then
-			echo "found non-directory repo checkout at $path" > /dev/stderr
+			echo "  found non-directory repo checkout at $path" > /dev/stderr
 			rm -rf "$path"
 		else
 			curl=$(git config --get remote.origin.url)
 			if [ "$curl" != "$url" ]; then
-				echo "$path is a check-out of other url $curl" > /dev/stderr
+				echo "  $path is a check-out of other url $curl" > /dev/stderr
 				rm -rf "$path"
 			fi
 		fi
 	fi
 	if [ ! -e "$path" ]; then
-		echo "creating new checkout for $url" > /dev/stderr
+		echo "  creating new checkout for $url" > /dev/stderr
 		if ! git clone --bare "$url" "$path"; then
-			echo "failed to check out $url -- skipping" > /dev/stderr
+			echo "  failed to check out $url -- skipping" > /dev/stderr
 			continue;
 		fi
 	fi
