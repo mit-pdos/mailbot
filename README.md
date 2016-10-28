@@ -4,11 +4,7 @@ Want to get e-mail notifications when changes are pushed to a
 repository? I'm your bot.
 
 First, give me access by adding me (`mit-pdos-bot`) as a read-only
-collaborator on your repository, and add the following SSH key to your
-`.ssh/authorized_keys` file:
-```
-ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILNzMUCqC76Kq5T8oTMuD1I1xB7YCQUi9FvyevcKxHen root@vm-mailbot
-```
+collaborator on your repository.
 
 Then register your repository by creating a new `.repo.sh` file in my
 repository. Give your file a simple name that identifies this
