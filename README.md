@@ -3,8 +3,10 @@ Hello. I am mailbot.
 Want to get e-mail notifications when changes are pushed to a
 repository? I'm your bot.
 
-First, give me access by adding me (`mit-pdos-bot`) as a read-only
-collaborator on your repository.
+First, give me access by adding my team (the "Bots" team) with read-only
+permissions on your repository. If you're trying to use me for a
+non-PDOS repository, invite the `mit-pdos-bot` user directly, and ping
+Jon to manually accept the invitation.
 
 Then register your repository by creating a new `.repo.sh` file in my
 repository. Give your file a simple name that identifies this
