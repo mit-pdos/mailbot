@@ -38,7 +38,10 @@ for f in *.repo.sh; do
 	fi
 	if [ ! -e "$path" ]; then
 		echo "creating new checkout for $url" > /dev/stderr
-		git clone --bare "$url" "$path"
+		if ! git clone --bare "$url" "$path"; then
+			echo "failed to check out $url -- skipping" > /dev/stderr
+			continue;
+		fi
 	fi
 
 	# various calls to git config
