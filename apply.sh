@@ -16,33 +16,33 @@ for f in *.repo.sh; do
 	#  - define configure() function for git configs
 	. "$f"
 	if [ -z "$url" ]; then
-		echo "no url specified for repo $name -- skipping"
+		echo "no url specified for repo $name -- skipping" > /dev/stderr
 		continue;
 	fi
 
 	if [ -e "$path" ]; then
 		# check that it's in the right state
 		if [ ! -d "$path" ]; then
-			echo "found non-directory repo checkout at $path"
+			echo "found non-directory repo checkout at $path" > /dev/stderr
 			#rm -rf "$path"
 		else
 			curl=$(git -C config --get remote.origin.url)
 			if [ "$curl" != "$url" ]; then
-				echo "$path is a check-out of other url $curl"
+				echo "$path is a check-out of other url $curl" > /dev/stderr
 				#rm -rf "$path"
 			fi
 		fi
 	fi
 	if [ ! -e "$path" ]; then
-		echo "creating new checkout for $url"
+		echo "creating new checkout for $url" > /dev/stderr
 		git clone --bare "$url" "$path"
 	fi
 
 	# various calls to git config
-	pushd "$path"
+	pushd "$path" > /dev/null
 	export GIT_DIR="$path"
-	configure
-	popd
+	configure > /dev/stderr
+	popd > /dev/null
 
 	# add to hooks.json
 	cat <<EOF
