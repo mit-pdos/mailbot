@@ -7,7 +7,7 @@ chmod +x /usr/bin/gitmail
 if ! id archlinux; then
 	echo "still in setup mode -- running apply-usr as root"
 	./apply-usr.sh "$@"
-	exit 0
+	exit $?
 fi
 
 sudo -u archlinux ./apply-usr.sh "$@"
