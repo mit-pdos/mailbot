@@ -10,7 +10,7 @@ for f in *.repo.sh; do
 
 	name="${f%.repo.sh}"
 	path="/srv/git/$name"
-	echo "$name" > /dev/stderr
+	echo "$name:" > /dev/stderr
 
 	# .repo file is expected to
 	#  - set $url
@@ -27,7 +27,7 @@ for f in *.repo.sh; do
 			echo "found non-directory repo checkout at $path" > /dev/stderr
 			#rm -rf "$path"
 		else
-			curl=$(git -C config --get remote.origin.url)
+			curl=$(git -C "$path" config --get remote.origin.url)
 			if [ "$curl" != "$url" ]; then
 				echo "$path is a check-out of other url $curl" > /dev/stderr
 				#rm -rf "$path"
