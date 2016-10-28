@@ -1,5 +1,5 @@
 diff --git a/post-receive-email b/post-receive-email
-index 8747b84..7f7f5bf 100644
+index 8747b84..c4873ac 100644
 --- a/post-receive-email
 +++ b/post-receive-email
 @@ -212,7 +212,7 @@ generate_email()
@@ -49,7 +49,203 @@ index 8747b84..7f7f5bf 100644
  	EOF
  }
  
-@@ -736,7 +735,7 @@ fi
+@@ -277,10 +276,6 @@ generate_email_footer()
+ #
+ generate_create_branch_email()
+ {
+-	# This is a new branch and so oldrev is not valid
+-	echo "        at  $newrev ($newrev_type)"
+-	echo ""
+-
+ 	echo $LOGBEGIN
+ 	show_new_revisions
+ 	echo $LOGEND
+@@ -370,26 +365,14 @@ generate_update_branch_email()
+ 	rev=""
+ 	for rev in $(git rev-list $newrev..$oldrev)
+ 	do
+-		revtype=$(git cat-file -t "$rev")
+-		echo "  discards  $rev ($revtype)"
++		true
+ 	done
+ 	if [ -z "$rev" ]; then
+ 		fast_forward=1
+ 	fi
+ 
+-	# List all the revisions from baserev to newrev in a kind of
+-	# "table-of-contents"; note this list can include revisions that
+-	# have already had notification emails and is present to show the
+-	# full detail of the change from rolling back the old revision to
+-	# the base revision and then forward to the new revision
+-	for rev in $(git rev-list $oldrev..$newrev)
+-	do
+-		revtype=$(git cat-file -t "$rev")
+-		echo "       via  $rev ($revtype)"
+-	done
+-
+ 	if [ "$fast_forward" ]; then
+-		echo "      from  $oldrev ($oldrev_type)"
++		true
+ 	else
+ 		#  1. Existing revisions were removed.  In this case newrev
+ 		#     is a subset of oldrev - this is the reverse of a
+@@ -401,46 +384,16 @@ generate_update_branch_email()
+ 		# happened, we set a flag to indicate that no log printout
+ 		# is required.
+ 
+-		echo ""
+-
+ 		# Find the common ancestor of the old and new revisions and
+ 		# compare it with newrev
+ 		baserev=$(git merge-base $oldrev $newrev)
+ 		rewind_only=""
+ 		if [ "$baserev" = "$newrev" ]; then
+-			echo "This update discarded existing revisions and left the branch pointing at"
+-			echo "a previous point in the repository history."
+-			echo ""
+-			echo " * -- * -- N ($newrev)"
+-			echo "            \\"
+-			echo "             O -- O -- O ($oldrev)"
+-			echo ""
+-			echo "The removed revisions are not necessarily gone - if another reference"
+-			echo "still refers to them they will stay in the repository."
+ 			rewind_only=1
+-		else
+-			echo "This update added new revisions after undoing existing revisions.  That is"
+-			echo "to say, the old revision is not a strict subset of the new revision.  This"
+-			echo "situation occurs when you --force push a change and generate a repository"
+-			echo "containing something like this:"
+-			echo ""
+-			echo " * -- * -- B -- O -- O -- O ($oldrev)"
+-			echo "            \\"
+-			echo "             N -- N -- N ($newrev)"
+-			echo ""
+-			echo "When this happens we assume that you've already had alert emails for all"
+-			echo "of the O revisions, and so we here report only the revisions in the N"
+-			echo "branch from the common base, B."
+ 		fi
+ 	fi
+ 
+-	echo ""
+ 	if [ -z "$rewind_only" ]; then
+-		echo "Those revisions listed above that are new to this repository have"
+-		echo "not appeared on any other notification email; so we list those"
+-		echo "revisions in full, below."
+-
+-		echo ""
+ 		echo $LOGBEGIN
+ 		show_new_revisions
+ 
+@@ -470,10 +423,8 @@ generate_update_branch_email()
+ #
+ generate_delete_branch_email()
+ {
+-	echo "       was  $oldrev"
+-	echo ""
+ 	echo $LOGBEGIN
+-	git diff-tree -s --always --encoding=UTF-8 --pretty=oneline $oldrev
++	git show -s --pretty=oneline $oldrev
+ 	echo $LOGEND
+ }
+ 
+@@ -484,8 +435,6 @@ generate_delete_branch_email()
+ #
+ generate_create_atag_email()
+ {
+-	echo "        at  $newrev ($newrev_type)"
+-
+ 	generate_atag_email
+ }
+ 
+@@ -495,9 +444,6 @@ generate_create_atag_email()
+ #
+ generate_update_atag_email()
+ {
+-	echo "        to  $newrev ($newrev_type)"
+-	echo "      from  $oldrev (which is now obsolete)"
+-
+ 	generate_atag_email
+ }
+ 
+@@ -549,11 +495,11 @@ generate_atag_email()
+ 		# performed on them
+ 		if [ -n "$prevtag" ]; then
+ 			# Show changes since the previous release
+-			git shortlog "$prevtag..$newrev"
++			git rev-list --pretty=short "$prevtag..$newrev" | git shortlog
+ 		else
+ 			# No previous tag, show all the changes since time
+ 			# began
+-			git shortlog $newrev
++			git rev-list --pretty=short $newrev | git shortlog
+ 		fi
+ 		;;
+ 	*)
+@@ -570,10 +516,8 @@ generate_atag_email()
+ #
+ generate_delete_atag_email()
+ {
+-	echo "       was  $oldrev"
+-	echo ""
+ 	echo $LOGBEGIN
+-	git diff-tree -s --always --encoding=UTF-8 --pretty=oneline $oldrev
++	git show -s --pretty=oneline $oldrev
+ 	echo $LOGEND
+ }
+ 
+@@ -585,8 +529,6 @@ generate_delete_atag_email()
+ #
+ generate_create_general_email()
+ {
+-	echo "        at  $newrev ($newrev_type)"
+-
+ 	generate_general_email
+ }
+ 
+@@ -596,9 +538,6 @@ generate_create_general_email()
+ #
+ generate_update_general_email()
+ {
+-	echo "        to  $newrev ($newrev_type)"
+-	echo "      from  $oldrev"
+-
+ 	generate_general_email
+ }
+ 
+@@ -616,10 +555,9 @@ generate_general_email()
+ 	# Note this section also catches any other reference type (although
+ 	# there aren't any) and deals with them in the same way.
+ 
+-	echo ""
+ 	if [ "$newrev_type" = "commit" ]; then
+ 		echo $LOGBEGIN
+-		git diff-tree -s --always --encoding=UTF-8 --pretty=medium $newrev
++		git show --no-color --root -s --pretty=medium $newrev
+ 		echo $LOGEND
+ 	else
+ 		# What can we do here?  The tag marks an object that is not
+@@ -635,10 +573,8 @@ generate_general_email()
+ #
+ generate_delete_general_email()
+ {
+-	echo "       was  $oldrev"
+-	echo ""
+ 	echo $LOGBEGIN
+-	git diff-tree -s --always --encoding=UTF-8 --pretty=oneline $oldrev
++	git show -s --pretty=oneline $oldrev
+ 	echo $LOGEND
+ }
+ 
+@@ -713,7 +649,7 @@ send_mail()
+ # ---------------------------- main()
+ 
+ # --- Constants
+-LOGBEGIN="- Log -----------------------------------------------------------------"
++LOGBEGIN=""
+ LOGEND="-----------------------------------------------------------------------"
+ 
+ # --- Config
+@@ -736,7 +672,7 @@ fi
  recipients=$(git config hooks.mailinglist)
  announcerecipients=$(git config hooks.announcelist)
  envelopesender=$(git config hooks.envelopesender)
@@ -58,7 +254,7 @@ index 8747b84..7f7f5bf 100644
  custom_showrev=$(git config hooks.showrev)
  maxlines=$(git config hooks.emailmaxlines)
  diffopts=$(git config hooks.diffopts)
-@@ -754,6 +753,6 @@ else
+@@ -754,6 +690,6 @@ else
  	while read oldrev newrev refname
  	do
  		prep_for_email $oldrev $newrev $refname || continue
