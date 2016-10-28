@@ -259,6 +259,6 @@ index 8747b84..c4873ac 100644
  	do
  		prep_for_email $oldrev $newrev $refname || continue
 -		generate_email $maxlines | send_mail
-+		generate_email $maxlines "$1" | send_mail
++		generate_email "$1" | send_mail
  	done
  fi
