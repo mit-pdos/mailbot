@@ -34,3 +34,17 @@ Make sure "Just the `push` event" and "Active" are ticked, and then
 click "Add webhook".
 
 You're all done. Enjoy.
+
+## Troubleshooting
+
+### The From header in the e-mails is set to my GitHub username and e-mail
+
+Add yourself to the `alias` file. Each line holds one user, and should
+be formatted in one of the following two ways:
+
+```
+ghusername Foo Bar <foo@bar.com>
+otherghuser user@example.com
+```
+
+Invalid entries are ignored.
