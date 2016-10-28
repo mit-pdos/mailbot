@@ -52,7 +52,7 @@ for f in *.repo.sh; do
 	cat <<EOF
   {
     "id": "email-$name",
-    "execute-command": "/bin/mailer",
+    "execute-command": "/usr/bin/mailer",
     "command-working-directory": "/root",
     "pass-arguments-to-command":
     [
