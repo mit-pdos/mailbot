@@ -15,7 +15,6 @@ for f in *.repo.sh; do
 	# .repo file is expected to
 	#  - set $url
 	#  - define configure() function for git configs
-	url=""
 	. "$f"
 	echo "  $url" > /dev/stderr
 	if [ -z "$url" ]; then
