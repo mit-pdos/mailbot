@@ -52,7 +52,7 @@ for f in *.repo.sh; do
   {
     "id": "email-$name",
     "execute-command": "/usr/bin/mailer",
-    "command-working-directory": "/root",
+    "command-working-directory": "/home/default",
     "pass-arguments-to-command":
     [
       {
