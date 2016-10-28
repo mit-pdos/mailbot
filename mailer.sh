@@ -9,7 +9,7 @@ email="$6"
 from="$pusher <$email>"
 
 echo "handling push to $repo"
-echo "pusher: $from"
+echo "pushed by: $from"
 
 alias=$(grep -E "^$pusher " "/srv/external/wc/mailbot/alias")
 #alias=$(grep -E "^$pusher " "./alias")
@@ -24,7 +24,7 @@ if [ -n "$alias" ]; then
 	else
 		echo "Invalid alias '$alias' for username $pusher; ignoring"
 	fi
-	echo "  +---> $from"
+	echo "aliased to $from"
 fi
 
 echo "syncing with upstream"
@@ -33,7 +33,14 @@ cd "$repo"
 echo -n '  ' # indent fetch
 git fetch --all
 
-echo "invoking post-receive-email $before $after $ref"
+cat <<EOF
+invoking post-receive-email with
+
+  $before
+  $after
+  $ref
+
+EOF
 # todo: migrate to multimail?
 # https://github.com/git/git/blob/master/contrib/hooks/multimail/README.migrate-from-post-receive-email
 echo "$before" "$after" "$ref" | /usr/bin/gitmail "$from" 2>&1
