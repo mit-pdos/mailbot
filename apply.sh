@@ -5,7 +5,8 @@ mv gitmail /usr/bin/gitmail
 chmod +x /usr/bin/gitmail
 
 if ! id archlinux; then
-	echo "still in setup mode -- not running apply-usr"
+	echo "still in setup mode -- running apply-usr as root"
+	./apply-usr.sh "$@"
 	exit 0
 fi
 
