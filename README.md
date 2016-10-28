@@ -8,12 +8,13 @@ permissions on your repository. If you're trying to use me for a
 non-PDOS repository, invite the `mit-pdos-bot` user directly, and ping
 Jon to manually accept the invitation.
 
-Then register your repository by creating a new `.repo.sh` file in my
-repository. Give your file a simple name that identifies this
-repository. On the first line of the file, define the variable `url` to
-hold the GitHub clone URL ("Clone or download", "Use SSH", copy+paste)
-of your repository. Then, define a function, `configure`, which runs
-`git config hooks.<var> <val>` to set [configuration
+Then register your repository by creating a new `.sh` file in
+`repositories/` in my repository. Give your file a simple name that
+identifies this repository. On the first line of the file, define the
+variable `url` to hold the GitHub clone URL ("Clone or download", "Use
+SSH", copy+paste) of your repository. Then, define a function,
+`configure`, which runs `git config hooks.<var> <val>` to set
+[configuration
 parameters](https://github.com/git/git/blob/master/contrib/hooks/post-receive-email#L41)
 for the mailing script. Commit and push this file.
 

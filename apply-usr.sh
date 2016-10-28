@@ -3,12 +3,13 @@ json="/srv/hooks.json"
 secret=$(cat /persist/deploy-secret)
 
 echo "[" > "$json"
-for f in *.repo.sh; do
-	if [ "$f" = "*.repo.sh" ]; then
+for f in repositories/*.sh; do
+	if [ "$f" = "repositories/*.sh" ]; then
 		break;
 	fi
 
-	name="${f%.repo.sh}"
+	name="$(basename "$f")"
+	name="${name%.sh}"
 	path="/srv/git/$name"
 	echo "$name:" > /dev/stderr
 
