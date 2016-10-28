@@ -23,13 +23,14 @@ for f in *.repo.sh; do
 		continue;
 	fi
 
+	export GIT_DIR="$path"
 	if [ -e "$path" ]; then
 		# check that it's in the right state
 		if [ ! -d "$path" ]; then
 			echo "found non-directory repo checkout at $path" > /dev/stderr
 			rm -rf "$path"
 		else
-			curl=$(git -C "$path" config --get remote.origin.url)
+			curl=$(git config --get remote.origin.url)
 			if [ "$curl" != "$url" ]; then
 				echo "$path is a check-out of other url $curl" > /dev/stderr
 				rm -rf "$path"
@@ -43,7 +44,6 @@ for f in *.repo.sh; do
 
 	# various calls to git config
 	pushd "$path" > /dev/null
-	export GIT_DIR="$path"
 	configure > /dev/stderr
 	git config hooks.envelopesender "no-reply@mailbot.pdos.csail.mit.edu"
 	popd > /dev/null
