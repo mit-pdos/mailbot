@@ -10,6 +10,7 @@ for f in *.repo.sh; do
 
 	name="${f%.repo.sh}"
 	path="/srv/git/$name"
+	echo "$name" > /dev/stderr
 
 	# .repo file is expected to
 	#  - set $url
