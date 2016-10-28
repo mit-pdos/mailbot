@@ -49,7 +49,7 @@ for f in *.repo.sh; do
   {
     "id": "email-$name",
     "execute-command": "/bin/mailer",
-    "command-working-directory": "/root"
+    "command-working-directory": "/root",
     "pass-arguments-to-command":
     [
       {
