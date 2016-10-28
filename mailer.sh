@@ -24,15 +24,18 @@ if [ -n "$alias" ]; then
 	else
 		echo "Invalid alias '$alias' for username $pusher; ignoring"
 	fi
-	echo " -> $from"
+	echo "  +---> $from"
 fi
 
-echo "fetching upstead"
+echo "syncing with upstream"
 export GIT_DIR="$repo"
 cd "$repo"
+echo -n '  ' # indent fetch
 git fetch --all
 
-echo "invoking post-receive-email"
+echo "invoking post-receive-email $before $after $ref"
 # todo: migrate to multimail?
 # https://github.com/git/git/blob/master/contrib/hooks/multimail/README.migrate-from-post-receive-email
 echo "$before" "$after" "$ref" | /usr/bin/gitmail "$from" 2>&1
+
+echo "all done"
