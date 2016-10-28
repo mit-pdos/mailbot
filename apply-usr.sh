@@ -43,6 +43,8 @@ for f in *.repo.sh; do
 
 	# various calls to git config
 	pushd "$path" > /dev/null
+	git config hooks.diffopts "--patch-with-stat --summary --find-copies-harder"
+	git config hooks.emailmaxlines 10000
 	configure > /dev/stderr
 	git config hooks.envelopesender "$name mailbot <no-reply@mailbot.pdos.csail.mit.edu>"
 	popd > /dev/null
