@@ -42,6 +42,7 @@ for f in *.repo.sh; do
 	pushd "$path" > /dev/null
 	export GIT_DIR="$path"
 	configure > /dev/stderr
+	git config hooks.envelopesender "no-reply@mailbot.pdos.csail.mit.edu"
 	popd > /dev/null
 
 	# add to hooks.json
