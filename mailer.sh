@@ -8,6 +8,11 @@ pusher="$5"
 email="$6"
 from="$pusher <$email>"
 
+if [[ "$7" = "ping" ]]; then
+	echo "pong";
+	exit 0
+fi
+
 echo "handling push to $repo"
 echo "pushed by: $from"
 
