@@ -85,9 +85,6 @@ for f in repositories/*.sh; do
       {
         "source": "payload",
         "name": "pusher.email"
-      },
-      {
-        "source": "entire-headers"
       }
     ],
     "trigger-rule":
