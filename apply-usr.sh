@@ -87,8 +87,7 @@ for f in repositories/*.sh; do
         "name": "pusher.email"
       },
       {
-        "source": "header",
-        "name": "X-GitHub-Event"
+        "source": "entire-headers"
       }
     ],
     "trigger-rule":
