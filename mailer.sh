@@ -13,7 +13,7 @@ if [[ "$7" = "ping" ]]; then
 	exit 0
 fi
 
-echo "handling push to $repo"
+echo "handling $7 to $repo"
 echo "pushed by: $from"
 
 alias=$(grep -E "^$pusher " "/srv/external/wc/mailbot/alias")
