@@ -8,7 +8,13 @@ pusher="$5"
 email="$6"
 from="$pusher <$email>"
 
-echo "handling push to $repo"
+if [[ "$7" = "ping" ]]; then
+	echo "pong";
+	exit 0
+fi
+
+echo "handling $7 to $repo"
+echo "$@"
 echo "pushed by: $from"
 
 alias=$(grep -E "^$pusher " "/srv/external/wc/mailbot/alias")
