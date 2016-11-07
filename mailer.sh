@@ -37,7 +37,7 @@ echo "syncing with upstream"
 export GIT_DIR="$repo"
 cd "$repo"
 echo -n '  ' # indent fetch
-git fetch --all
+git fetch origin '*:*'
 
 cat <<EOF
 invoking post-receive-email with
