@@ -26,7 +26,7 @@ Payload URL: http://mailbot.pdos.csail.mit.edu:9000/hooks/email-$name
 Content type: application/json
 Secret: $secret
 ```
-`$name` is the basename of your `.repo.sh` file (without `.repo.sh`).
+`$name` is the basename of your `.sh` file (without `.sh`).
 `$secret` is a secret key you can either ask Jon for, or get (if you
 have SSH access) by running
 ```console
