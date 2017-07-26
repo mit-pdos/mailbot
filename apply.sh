@@ -7,10 +7,10 @@ patch -Np1 gitmail post-receive-email.patch
 mv gitmail /usr/bin/gitmail
 chmod +x /usr/bin/gitmail
 
-if ! id archlinux; then
+if ! id arch; then
 	echo "still in setup mode -- running apply-usr as root"
 	./apply-usr.sh "$@" 2>&1
 	exit $?
 fi
 
-sudo -u archlinux ./apply-usr.sh "$@" 2>&1
+sudo -u arch ./apply-usr.sh "$@" 2>&1
