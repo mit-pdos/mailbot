@@ -1,5 +1,5 @@
-url="git@github.com:mit-pdos/distributary.git"
+url="git@github.com:mit-pdos/noria.git"
 configure() {
     git config hooks.mailinglist malte@csail.mit.edu,kaashoek@mit.edu,rtm@csail.mit.edu
-    git config hooks.emailprefix "[distributary]"
+    git config hooks.emailprefix "[noria]"
 }
